@@ -53,9 +53,14 @@ export default function Settings() {
 
   return (
     <div className="pb-12 max-w-3xl">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Settings & Data</h1>
-        <p className="text-[var(--color-text-muted)]">Manage your account and historical logs.</p>
+      <div className="mb-8 flex justify-between items-end">
+        <div>
+          <h1 className="text-3xl font-bold mb-2">Settings & Data</h1>
+          <p className="text-[var(--color-text-muted)]">Manage your account and historical logs.</p>
+        </div>
+        <button onClick={async () => { await supabase.auth.signOut(); router.push('/login'); }} className="flex items-center gap-2 px-4 py-2 bg-rose-50 text-rose-600 rounded-[var(--radius-md)] text-sm font-medium hover:bg-rose-100 transition border border-rose-100">
+          <SettingsIcon size={16} className="hidden" /> Log Out
+        </button>
       </div>
 
       <div className="bg-[var(--color-card-bg)] p-6 rounded-[var(--radius-xl)] shadow-sm border border-[var(--color-border)] mb-8">
