@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroTwin Authorization Matrix (6:4 Export)</title>
+    <!-- Load Mermaid.js for the diagram -->
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    </script>
+    <style>
+        body {
+            background-color: #2b2b2b; /* Dark backdrop to make your export popup */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        /* Exact 6:4 aspect ratio container (1200px by 800px) */
+        .export-container {
+            width: 1200px;
+            height: 800px;
+            background-color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            padding: 40px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .graph-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: visible;
+        }
+        .table-section {
+            margin-top: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 15px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 14px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f6f8;
+            font-size: 16px;
+            color: #333;
+        }
+        th:first-child, td:first-child {
+            text-align: left;
+        }
+        /* Custom Colors matching reference */
+        .check { color: #8b5cf6; font-weight: bold; font-size: 1.5em; }
+        .cross { color: #ef4444; font-weight: bold; font-size: 1.5em; }
+        .note { color: #888; font-style: italic; font-size: 0.9em; display: block; margin-top: 4px; }
+        h1 { text-align: center; margin: 0; padding-bottom: 20px; font-size: 28px; color: #111; }
+    </style>
+</head>
+<body>
+
+    <!-- This white box is perfectly 6:4 (1200x800) -->
+    <div class="export-container">
+        
+        <h1>NeuroTwin Authorization Scope</h1>
+        
+        <!-- Mermaid Diagram -->
+        <div class="graph-section">
+            <div class="mermaid">
+                graph TD
+                    classDef scope fill:#0033ff,stroke:#001188,color:#fff,rx:40,ry:40,font-weight:bold,stroke-width:2px;
+                    classDef auth fill:#ccffcc,stroke:#57cc99,color:#114422,rx:10,ry:10,font-weight:bold,stroke-width:2px;
+                    classDef guest fill:#fcf6bd,stroke:#d4c442,color:#554400,rx:10,ry:10,font-weight:bold,stroke-width:2px;
+                    classDef admin fill:#ffccd5,stroke:#ff8fa3,color:#551122,rx:10,ry:10,font-weight:bold,stroke-width:2px;
+
+                    A((Access Scope)):::scope
+
+                    %% Auth Branch
+                    A --- B[Authenticated Student]:::auth
+                    B --- B1[Manage Data Entries]:::auth
+                    B --- B2[View Dashboard]:::auth
+                    B --- B3[View Weekly Report]:::auth
+                    B --- B4[View Predictor]:::auth
+                    B --- B5[Manage Custom Habits]:::auth
+
+                    %% Guest Branch
+                    A --- C[Guest / Unauthenticated]:::guest
+                    C --- C1[View Login Page]:::guest
+                    C --- C2[Register Profile]:::guest
+                    C --- C3[Redirected to /login]:::guest
+
+                    %% Admin Branch
+                    A --- D[Database Admin]:::admin
+                    D --- D1[Supabase Dashboard]:::admin
+                    D --- D2[Manage RLS & Schema]:::admin
+            </div>
+        </div>
+
+        <!-- Styled Table -->
+        <div class="table-section">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Application Route / Feature</th>
+                        <th>Unauthenticated Guest</th>
+                        <th>Authenticated Student</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>/login, /register</strong><br><span class="note">(View Auth Forms)</span></td>
+                        <td><span class="check">✔</span></td>
+                        <td><span class="cross">✖</span><span class="note">(Redirected to /dashboard)</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>/dashboard</strong><br><span class="note">(View Summaries & Stats)</span></td>
+                        <td><span class="cross">✖</span><span class="note">(Redirected to /login)</span></td>
+                        <td><span class="check">✔</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>/log</strong><br><span class="note">(Data Entry: Add, Edit, Delete)</span></td>
+                        <td><span class="cross">✖</span></td>
+                        <td><span class="check">✔</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>/report, /predictor</strong><br><span class="note">(Advanced Analysis)</span></td>
+                        <td><span class="cross">✖</span></td>
+                        <td><span class="check">✔</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Custom Habits Settings</strong><br><span class="note">(Manage Preferences)</span></td>
+                        <td><span class="cross">✖</span></td>
+                        <td><span class="check">✔</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</body>
+</html>
