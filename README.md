@@ -1,1 +1,2 @@
 # Project Name is NeuroTwin. Having the need to have high novelty I need to add something to it.
+# UPON REVIEWING IT WITH FACULTY WE SAW MORE WAYS TO MAKE IT OPTIMSED AND THEN ALSO HAD AN IDEA TO INCLUDE LLAMA AI.
